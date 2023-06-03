@@ -10,7 +10,7 @@ const ingredientesDisponibles = [
     'Hueso de serpiente',
 ];
 
-const CrearPocion = ({funcion}) => {
+const CrearPocion = ({ funcion }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [nombre, setNombre] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -45,7 +45,7 @@ const CrearPocion = ({funcion}) => {
             precio,
             descripcion,
             categoria,
-            ingredientesUtilizados:ingredientes,
+            ingredientesUtilizados: ingredientes,
         };
         console.log(JSON.stringify(pocionData));
 
@@ -65,19 +65,28 @@ const CrearPocion = ({funcion}) => {
                 body: JSON.stringify(pocionData),
             });
 
-
+            // fetch(API+'nuevaPocion',{
+            //     method: 'POST',
+            //     body:JSON.stringify(pocionData),
+            //     headers:{
+            //         "Content-Type": "application/json",
+            //     },
+            // }).then((response)=>response.json())
+            // .then((data)=>{
+            //     console.log(data)
+            // })
 
             if (response.ok) {
-                funcion()
-                
+                funcion();
+
                 const imageData = new FormData();
                 imageData.append('nombre', nombre);
                 imageData.append('image', imagen);
-                console.log(imagen)
-                const id= response.json()
-                console.log(id)
+                console.log(imagen);
+                const id = response.json();
+                console.log(id);
 
-                const imageResponse = await fetch(API + 'upload/'+id.id , {
+                const imageResponse = await fetch(API + 'upload', {
                     method: 'POST',
                     body: imageData,
                 });
@@ -85,7 +94,7 @@ const CrearPocion = ({funcion}) => {
                     setModalOpen(false);
                     resetForm();
                 }
-                
+
                 // Actualizar la lista de pociones o realizar cualquier otra acción necesaria
             } else {
                 // Manejar el caso de error en la creación de la poción
@@ -104,7 +113,6 @@ const CrearPocion = ({funcion}) => {
         setIngredientes([]);
         setImagen(null);
     };
-    
 
     return (
         <div>
