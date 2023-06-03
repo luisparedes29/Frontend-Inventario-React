@@ -1,5 +1,6 @@
 import { data } from 'autoprefixer';
 import React,{ useEffect, useState } from 'react';
+import TablaPociones from './tablaPociones';
 
 const TablaIngredientes=()=> {
     const [search, setSearch] = useState('');
@@ -29,7 +30,9 @@ const API= "http://localhost:3000/"
 
     //renderizamos la vista
     return (
+        
         <div>
+            <TablaPociones actualizarIngredientes={showData}/>
             <table>
                 <thead>
                     <tr>

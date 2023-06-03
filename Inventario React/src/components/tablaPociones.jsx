@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 const API = 'http://localhost:3000/';
 import CrearPocion from './newModal';
 
-const TablaPociones = () => {
+const TablaPociones = ({actualizarIngredientes}) => {
     const [search, setSearch] = useState('');
     const [option, setOption] = useState('nombre');
     const [pociones, setPociones] = useState([]);
@@ -28,6 +28,7 @@ const TablaPociones = () => {
     const handleDeletePotion = async () => {
         await fetch(API + 'eliminarPocion/' + deletingPotion.id, { method: 'DELETE' });
         getPociones();
+        actualizarIngredientes();
         setModalOpen(false);
     };
 
@@ -60,7 +61,7 @@ const TablaPociones = () => {
                         placeholder='Escribe tu búsqueda aquí'
                     ></input>
                 </form>
-                <CrearPocion/>
+                <CrearPocion funcion={getPociones}/>
             </div>
             <div className="flex flex-wrap justify-around mt-10">
                 {pociones.map((data) => (

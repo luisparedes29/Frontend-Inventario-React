@@ -10,7 +10,7 @@ const ingredientesDisponibles = [
     'Hueso de serpiente',
 ];
 
-const CrearPocion = () => {
+const CrearPocion = ({funcion}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [nombre, setNombre] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -65,13 +65,19 @@ const CrearPocion = () => {
                 body: JSON.stringify(pocionData),
             });
 
+
+
             if (response.ok) {
+                funcion()
+                
                 const imageData = new FormData();
                 imageData.append('nombre', nombre);
                 imageData.append('image', imagen);
+                console.log(imagen)
                 const id= response.json()
+                console.log(id)
 
-                const imageResponse = await fetch(API + 'upload/'+id , {
+                const imageResponse = await fetch(API + 'upload/'+id.id , {
                     method: 'POST',
                     body: imageData,
                 });
@@ -79,6 +85,7 @@ const CrearPocion = () => {
                     setModalOpen(false);
                     resetForm();
                 }
+                
                 // Actualizar la lista de pociones o realizar cualquier otra acción necesaria
             } else {
                 // Manejar el caso de error en la creación de la poción
@@ -97,6 +104,7 @@ const CrearPocion = () => {
         setIngredientes([]);
         setImagen(null);
     };
+    
 
     return (
         <div>
