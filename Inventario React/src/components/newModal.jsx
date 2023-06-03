@@ -1,3 +1,4 @@
+import { data } from 'autoprefixer';
 import React, { useState } from 'react';
 const API = 'http://localhost:3000/';
 
@@ -10,7 +11,7 @@ const ingredientesDisponibles = [
     'Hueso de serpiente',
 ];
 
-const CrearPocion = ({ funcion, actualizar }) => {
+const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [nombre, setNombre] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -38,6 +39,23 @@ const CrearPocion = ({ funcion, actualizar }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (
+            !nombre ||
+            !cantidad ||
+            !precio ||
+            !descripcion ||
+            !categoria ||
+            !ingredientes
+        ) {
+            console.log('Datos incompletos');
+            return;
+        }
+
+        // Verificar si se han seleccionado ingredientes
+        if (ingredientes.length === 0) {
+            console.log('Debes seleccionar al menos un ingrediente');
+            return;
+        }
 
         const pocionData = {
             nombre,
@@ -152,6 +170,7 @@ const CrearPocion = ({ funcion, actualizar }) => {
                                 <input
                                     type="number"
                                     value={cantidad}
+                                    min={1}
                                     onChange={(e) => {
                                         console.log(e.target.value);
                                         setCantidad(e.target.value);
@@ -164,6 +183,7 @@ const CrearPocion = ({ funcion, actualizar }) => {
                                 <input
                                     type="number"
                                     value={precio}
+                                    min={1}
                                     onChange={(e) => {
                                         console.log(e.target.value);
                                         setPrecio(e.target.value);
