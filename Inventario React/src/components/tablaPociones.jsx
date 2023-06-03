@@ -61,7 +61,7 @@ const TablaPociones = ({actualizarIngredientes}) => {
                         placeholder='Escribe tu búsqueda aquí'
                     ></input>
                 </form>
-                <CrearPocion funcion={getPociones}/>
+                <CrearPocion funcion={getPociones} actualizar={actualizarIngredientes}/>
             </div>
             <div className="flex flex-wrap justify-around mt-10">
                 {pociones.map((data) => (

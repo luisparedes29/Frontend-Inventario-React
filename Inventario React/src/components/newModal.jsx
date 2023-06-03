@@ -10,7 +10,7 @@ const ingredientesDisponibles = [
     'Hueso de serpiente',
 ];
 
-const CrearPocion = ({ funcion }) => {
+const CrearPocion = ({ funcion, actualizar }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [nombre, setNombre] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -77,7 +77,6 @@ const CrearPocion = ({ funcion }) => {
             // })
 
             if (response.ok) {
-                funcion();
 
                 const imageData = new FormData();
                 imageData.append('nombre', nombre);
@@ -93,6 +92,8 @@ const CrearPocion = ({ funcion }) => {
                 if (imageResponse.ok) {
                     setModalOpen(false);
                     resetForm();
+                    funcion();
+                    actualizar();
                 }
 
                 // Actualizar la lista de pociones o realizar cualquier otra acción necesaria
