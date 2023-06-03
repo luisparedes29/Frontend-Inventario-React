@@ -77,7 +77,6 @@ const CrearPocion = ({ funcion, actualizar }) => {
             // })
 
             if (response.ok) {
-
                 const imageData = new FormData();
                 imageData.append('nombre', nombre);
                 imageData.append('image', imagen);
@@ -90,6 +89,11 @@ const CrearPocion = ({ funcion, actualizar }) => {
                     body: imageData,
                 });
                 if (imageResponse.ok) {
+                    setModalOpen(false);
+                    resetForm();
+                    funcion();
+                    actualizar();
+                } else {
                     setModalOpen(false);
                     resetForm();
                     funcion();
@@ -118,16 +122,19 @@ const CrearPocion = ({ funcion, actualizar }) => {
     return (
         <div>
             <button
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+                className="bg-[#278318] hover:bg-green-600 text-white px-4 py-2 rounded font-Rubik"
                 onClick={() => setModalOpen(true)}
             >
                 Crear Poción
             </button>
             {modalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
-                    <div className="bg-white rounded p-8">
+                    <div className="w-3/5 bg-white rounded p-8">
                         <h2 className="text-xl mb-4">Crear Poción</h2>
-                        <form onSubmit={handleSubmit}>
+                        <form
+                            className="flex flex-wrap gap-3 items-end justify-evenly"
+                            onSubmit={handleSubmit}
+                        >
                             <div className="mb-4">
                                 <label className="block mb-2">Nombre</label>
                                 <input
@@ -164,19 +171,7 @@ const CrearPocion = ({ funcion, actualizar }) => {
                                     className="border border-gray-300 px-4 py-2 rounded"
                                 />
                             </div>
-                            <div className="mb-4">
-                                <label className="block mb-2">
-                                    Descripción
-                                </label>
-                                <textarea
-                                    value={descripcion}
-                                    onChange={(e) => {
-                                        console.log(e.target.value);
-                                        setDescripcion(e.target.value);
-                                    }}
-                                    className="border border-gray-300 px-4 py-2 rounded"
-                                />
-                            </div>
+
                             <div className="mb-4">
                                 <label className="block mb-2">Categoría</label>
                                 <input
@@ -191,11 +186,28 @@ const CrearPocion = ({ funcion, actualizar }) => {
                             </div>
                             <div className="mb-4">
                                 <label className="block mb-2">
+                                    Descripción
+                                </label>
+                                <textarea
+                                    value={descripcion}
+                                    rows={'5'}
+                                    onChange={(e) => {
+                                        console.log(e.target.value);
+                                        setDescripcion(e.target.value);
+                                    }}
+                                    className="border border-gray-300 px-4 py-2 rounded"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block mb-2">
                                     Ingredientes
                                 </label>
                                 {ingredientesDisponibles.map(
                                     (ingrediente, index) => (
-                                        <div key={index}>
+                                        <div
+                                            className="flex items-center gap-3"
+                                            key={index}
+                                        >
                                             <input
                                                 type="checkbox"
                                                 id={ingrediente}
@@ -217,6 +229,7 @@ const CrearPocion = ({ funcion, actualizar }) => {
                             <div className="mb-4">
                                 <label className="block mb-2">Imagen</label>
                                 <input
+                                    className="border-2 border-black p-3 border-opacity-10 rounded-lg"
                                     type="file"
                                     accept="image/*"
                                     onChange={(e) =>
@@ -224,7 +237,7 @@ const CrearPocion = ({ funcion, actualizar }) => {
                                     }
                                 />
                             </div>
-                            <div className="flex justify-center">
+                            <div className="">
                                 <button
                                     className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mr-4"
                                     type="submit"

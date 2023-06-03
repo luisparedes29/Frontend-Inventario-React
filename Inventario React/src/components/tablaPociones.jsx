@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 const API = 'http://localhost:3000/';
 import CrearPocion from './newModal';
+import FormEdit from './FormEdit';
 
 const TablaPociones = ({actualizarIngredientes}) => {
     const [search, setSearch] = useState('');
@@ -40,13 +41,13 @@ const TablaPociones = ({actualizarIngredientes}) => {
         <div className='mt-10'>
             <h2 className="font-Rubik text-center text-[24px] mb-7">Lista de pociones</h2>
 
-            <div className="flex">
+            <div className="flex justify-around">
                 <form onSubmit={handleSubmit}>
                     <label>
-                        Elige una manera de búsqueda:
                         <select
                             value={option}
                             onChange={(e) => setOption(e.target.value)}
+                            className='font-Rubik text-sm bg-[#278318] p-2 rounded mr-3'
                         >
                             <option value="nombre">Nombre</option>
                             <option value="categoria">Categoría</option>
@@ -57,7 +58,7 @@ const TablaPociones = ({actualizarIngredientes}) => {
                         type="text"
                         onChange={(e) => setSearch(e.target.value)}
                         value={search}
-                        className="bg-[#4DBA3B] rounded font-Rubik text-white text-xs p-2 placeholder:text-white"
+                        className="bg-[#4DBA3B] rounded font-Rubik text-black text-xs px-4 py-2 placeholder:text-black mr-10"
                         placeholder='Escribe tu búsqueda aquí'
                     ></input>
                 </form>
@@ -89,12 +90,7 @@ const TablaPociones = ({actualizarIngredientes}) => {
                                 Descripción: {data.descripcion}
                             </p>
                             <div className="flex justify-evenly mt-8">
-                                <button
-                                    className="bg-[#278318] text-xs p-3 m-2 text-black rounded-xl"
-                                    onClick={() => handleEditClick(data)}
-                                >
-                                    Editar
-                                </button>
+                                <FormEdit datos={data} funcion={getPociones} actualizar={actualizarIngredientes}/>
                                 <button
                                     className="bg-[#278318] text-xs p-3 m-2 text-black rounded-xl"
                                     onClick={() => handleDeleteClick(data)}

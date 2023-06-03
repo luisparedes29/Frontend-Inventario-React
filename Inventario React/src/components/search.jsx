@@ -33,26 +33,28 @@ const API= "http://localhost:3000/"
         
         <div>
             <TablaPociones actualizarIngredientes={showData}/>
+            <div className='flex justify-center'>
             <table>
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Cantidad</th>
-                        <th>Descripcion</th>
+                        <th className='p-5 text-center border-b border-[#278318]'>Nombre</th>
+                        <th className='p-5 text-center border-l border-b border-[#278318]'>Cantidad</th>
+                        <th className='p-5 text-center border-b border-r border-l border-[#278318]'>Descripcion</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         ingredientes.map((data)=>(
                             <tr key={data.id}>
-                                <td>{data.nombre}</td>
-                                <td>{data.cantidadDisponible}</td>
-                                <td>{data.descripcion}</td>
+                                <td className='border-r border-[#278318] text-center p-4'>{data.nombre}</td>
+                                <td className='border-r border-[#278318] text-center p-4'>{data.cantidadDisponible}</td>
+                                <td className='border-r border-[#278318] text-center p-4'>{data.descripcion}</td>
                             </tr>
                         ) )
                     }
                 </tbody>
             </table>
+            </div>
         </div>
     );
 }
