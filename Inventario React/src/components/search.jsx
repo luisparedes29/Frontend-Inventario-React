@@ -2,12 +2,12 @@ import { data } from 'autoprefixer';
 import React,{ useEffect, useState } from 'react';
 import TablaPociones from './tablaPociones';
 
-const TablaIngredientes=()=> {
+const TablaIngredientes=({setLoader})=> {
     const [ingredientes, setIngredientes] = useState([]);
 
     //traemos los datos del Backend
-const API= "http://localhost:3000/"
-
+    const API= "http://localhost:3000/"
+    
     const showData= async ()=>{
         const response = await fetch(API+'ingredientes')
         const data = await response.json()
@@ -29,7 +29,7 @@ const API= "http://localhost:3000/"
     return (
         
         <div>
-            <TablaPociones actualizarIngredientes={showData} ingredientesDisponibles={ingredientes}/>
+            <TablaPociones setLoader={setLoader} actualizarIngredientes={showData} ingredientesDisponibles={ingredientes}/>
             <div className='flex justify-center mt-10'>
             <table>
                 <thead>

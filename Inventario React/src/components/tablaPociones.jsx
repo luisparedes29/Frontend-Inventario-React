@@ -5,7 +5,7 @@ import FormEdit from './FormEdit';
 import ModalInfo from './modalPociones';
 import { toast } from 'react-hot-toast';
 
-const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
+const TablaPociones = ({setLoader, actualizarIngredientes,ingredientesDisponibles}) => {
     const [search, setSearch] = useState('');
     const [option, setOption] = useState('nombre');
     const [pociones, setPociones] = useState([]);
@@ -34,11 +34,13 @@ const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
     };
 
     const handleDeletePotion = async () => {
+        setLoader(true)
         await fetch(API + 'eliminarPocion/' + deletingPotion.id, { method: 'DELETE' });
         getPociones();
         actualizarIngredientes();
         setModalOpen(false);
         toast.success('Pocion eliminada correctamente')
+        setLoader(false)
     };
 
     const handleSubmit = (e) => {
@@ -46,7 +48,6 @@ const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
     };
     const searcher = (e) => {
         setSearch(e.target.value);
-        console.log(e.target.value);
     };
     let results = [];
     if (!search) {
@@ -54,7 +55,6 @@ const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
     } else {
         let datos = [];
         datos = pociones;
-        console.log(datos);
         results = datos.filter((dato) => {
             if (option === 'nombre') {
                 return dato.nombre.toLowerCase().includes(search.toLowerCase());
@@ -95,7 +95,7 @@ const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
                         placeholder='Escribe tu búsqueda aquí'
                     ></input>
                 </form>
-                <CrearPocion funcion={getPociones} actualizar={actualizarIngredientes} ingredientesValidacion={ingredientesDisponibles}/>
+                <CrearPocion setLoader={setLoader} funcion={getPociones} actualizar={actualizarIngredientes} ingredientesValidacion={ingredientesDisponibles}/>
             </div>
             <div className="flex flex-wrap justify-around mt-10">
                 {results.map((data) => (
@@ -124,7 +124,7 @@ const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
                                 Descripción: {data.descripcion}
                             </p>
                             <div className="flex justify-evenly mt-8">
-                                <FormEdit datos={data} funcion={getPociones} actualizar={actualizarIngredientes} ingredientesValidacion={ingredientesDisponibles}/>
+                                <FormEdit setLoader={setLoader} datos={data} funcion={getPociones} actualizar={actualizarIngredientes} ingredientesValidacion={ingredientesDisponibles}/>
                                 <button
                                     className="bg-[#278318] text-xs p-3 m-2 text-black rounded-xl"
                                     onClick={() => handleDeleteClick(data)}

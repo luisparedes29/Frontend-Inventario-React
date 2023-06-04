@@ -12,7 +12,7 @@ const ingredientesDisponibles = [
     'Hueso de serpiente',
 ];
 
-const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
+const CrearPocion = ({ setLoader,funcion, actualizar, ingredientesValidacion }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [nombre, setNombre] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -40,6 +40,7 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (
             !nombre ||
             !cantidad ||
@@ -90,6 +91,7 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
         };
 
         try {
+            setLoader(true)
             const response = await fetch(API + 'nuevaPocion', {
                 method: 'POST',
                 headers: {
@@ -136,6 +138,7 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
             toast.error('Ha ocurrido un error de servidor');
             // Manejar el caso de error en la solicitud
         }
+        setLoader(false)
     };
 
     const resetForm = () => {

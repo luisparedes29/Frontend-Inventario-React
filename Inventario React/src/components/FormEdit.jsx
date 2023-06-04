@@ -11,7 +11,7 @@ const ingredientesDisponibles = [
     'Hueso de serpiente',
 ];
 
-function FormEdit({ datos, funcion, actualizar, ingredientesValidacion }) {
+function FormEdit({setLoader, datos, funcion, actualizar, ingredientesValidacion }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [nombre, setNombre] = useState(datos.nombre);
     const [cantidad, setCantidad] = useState(datos.cantidadDisponible);
@@ -70,6 +70,7 @@ function FormEdit({ datos, funcion, actualizar, ingredientesValidacion }) {
             ingredientesUtilizados: ingredientes,
         };
         try {
+          setLoader(true)
             const response = await fetch(API + `editarPocion/${datos.id}`, {
                 method: 'PUT',
                 headers: {
@@ -110,6 +111,7 @@ function FormEdit({ datos, funcion, actualizar, ingredientesValidacion }) {
           toast.error('Ha ocurrido un error de servidor')
             // Manejar el caso de error en la solicitud
         }
+        setLoader(false)
     };
 
     const resetForm = () => {
