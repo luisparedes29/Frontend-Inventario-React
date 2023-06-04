@@ -3,7 +3,7 @@ const API = 'http://localhost:3000/';
 import CrearPocion from './newModal';
 import FormEdit from './FormEdit';
 import ModalInfo from './modalPociones';
-import { data } from 'autoprefixer';
+import { toast } from 'react-hot-toast';
 
 const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
     const [search, setSearch] = useState('');
@@ -21,7 +21,6 @@ const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
     const getPociones = async () => {
         const response = await fetch(API + 'pociones');
         const data = await response.json();
-        console.log(data);
         setPociones(data);
     };
     const handleModalInfo= (value,data)=>{
@@ -39,6 +38,7 @@ const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
         getPociones();
         actualizarIngredientes();
         setModalOpen(false);
+        toast.success('Pocion eliminada correctamente')
     };
 
     const handleSubmit = (e) => {
@@ -124,7 +124,7 @@ const TablaPociones = ({actualizarIngredientes,ingredientesDisponibles}) => {
                                 Descripción: {data.descripcion}
                             </p>
                             <div className="flex justify-evenly mt-8">
-                                <FormEdit datos={data} funcion={getPociones} actualizar={actualizarIngredientes}/>
+                                <FormEdit datos={data} funcion={getPociones} actualizar={actualizarIngredientes} ingredientesValidacion={ingredientesDisponibles}/>
                                 <button
                                     className="bg-[#278318] text-xs p-3 m-2 text-black rounded-xl"
                                     onClick={() => handleDeleteClick(data)}

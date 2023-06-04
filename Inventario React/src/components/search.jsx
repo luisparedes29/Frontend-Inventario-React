@@ -4,7 +4,6 @@ import TablaPociones from './tablaPociones';
 
 const TablaIngredientes=()=> {
     const [ingredientes, setIngredientes] = useState([]);
-    const [ingredientesDisponibles, setIngredientesDisponibles] = useState([]);
 
     //traemos los datos del Backend
 const API= "http://localhost:3000/"
@@ -12,17 +11,9 @@ const API= "http://localhost:3000/"
     const showData= async ()=>{
         const response = await fetch(API+'ingredientes')
         const data = await response.json()
-        console.log(data)
         setIngredientes(data)
     }
 
-    const showIngredientesDisponibles = async () => {
-        const response = await fetch(API + 'ingredientes');
-        const data = await response.json();
-        console.log(data);
-        setIngredientesDisponibles(data);
-};
-    
 
 
 
@@ -31,7 +22,6 @@ const API= "http://localhost:3000/"
     //metodo de filtrado
     useEffect(()=>{
         showData()
-        showIngredientesDisponibles();
     },[])
 
 
@@ -39,7 +29,7 @@ const API= "http://localhost:3000/"
     return (
         
         <div>
-            <TablaPociones actualizarIngredientes={showData} ingredientesDisponibles={ingredientesDisponibles}/>
+            <TablaPociones actualizarIngredientes={showData} ingredientesDisponibles={ingredientes}/>
             <div className='flex justify-center mt-10'>
             <table>
                 <thead>

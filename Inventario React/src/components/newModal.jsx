@@ -1,6 +1,7 @@
 import { data } from 'autoprefixer';
 import React, { useState } from 'react';
 const API = 'http://localhost:3000/';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ingredientesDisponibles = [
     'Escamas de dragón',
@@ -47,13 +48,35 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
             !categoria ||
             !ingredientes
         ) {
-            console.log('Datos incompletos');
+            toast.error(
+                'Datos incompletos, rellena todos los campos, la imagen es opcional'
+            );
             return;
         }
 
         // Verificar si se han seleccionado ingredientes
         if (ingredientes.length === 0) {
-            console.log('Debes seleccionar al menos un ingrediente');
+            toast.error('Debes seleccionar al menos un ingrediente');
+            return;
+        }
+
+        let validacionCantidad = ingredientes.map((item) => {
+            const ingredienteValido = ingredientesValidacion.find(
+                (item2) => item === item2.nombre
+            );
+
+            if (ingredienteValido) {
+                if (cantidad > ingredienteValido.cantidadDisponible) {
+                    toast.error(
+                        `La cantidad seleccionada es mayor a la disponible en el ingrediente: ${ingredienteValido.nombre}`
+                    );
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        if (validacionCantidad.includes(false)) {
             return;
         }
 
@@ -65,14 +88,6 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
             categoria,
             ingredientesUtilizados: ingredientes,
         };
-        console.log(JSON.stringify(pocionData));
-
-        console.log(nombre);
-        console.log(cantidad);
-        console.log(precio);
-        console.log(descripcion);
-        console.log(categoria);
-        console.log(ingredientes);
 
         try {
             const response = await fetch(API + 'nuevaPocion', {
@@ -83,46 +98,42 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
                 body: JSON.stringify(pocionData),
             });
 
-            // fetch(API+'nuevaPocion',{
-            //     method: 'POST',
-            //     body:JSON.stringify(pocionData),
-            //     headers:{
-            //         "Content-Type": "application/json",
-            //     },
-            // }).then((response)=>response.json())
-            // .then((data)=>{
-            //     console.log(data)
-            // })
-
             if (response.ok) {
                 const imageData = new FormData();
                 imageData.append('nombre', nombre);
                 imageData.append('image', imagen);
-                console.log(imagen);
-                const id = response.json();
-                console.log(id);
 
-                const imageResponse = await fetch(API + 'upload', {
-                    method: 'POST',
-                    body: imageData,
-                });
-                if (imageResponse.ok) {
-                    setModalOpen(false);
-                    resetForm();
-                    funcion();
-                    actualizar();
+                if (imagen) {
+                    const imageResponse = await fetch(API + 'upload', {
+                        method: 'POST',
+                        body: imageData,
+                    });
+                    if (imageResponse.ok) {
+                        funcion();
+                        actualizar();
+                        setModalOpen(false);
+                        resetForm();
+                        toast.success('Pocion creada con exito');
+
+                    }
                 } else {
-                    setModalOpen(false);
-                    resetForm();
                     funcion();
                     actualizar();
+                    setModalOpen(false);
+                    resetForm();
+                    toast.success('Pocion creada con exito');
+
                 }
 
                 // Actualizar la lista de pociones o realizar cualquier otra acción necesaria
             } else {
+                toast.error(
+                    'Ha ocurrido un error al momento de crear la pocion'
+                );
                 // Manejar el caso de error en la creación de la poción
             }
         } catch (error) {
+            toast.error('Ha ocurrido un error de servidor');
             // Manejar el caso de error en la solicitud
         }
     };
@@ -159,7 +170,6 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
                                     type="text"
                                     value={nombre}
                                     onChange={(e) => {
-                                        console.log(e.target.value);
                                         setNombre(e.target.value);
                                     }}
                                     className="border border-gray-300 px-4 py-2 rounded"
@@ -172,7 +182,6 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
                                     value={cantidad}
                                     min={1}
                                     onChange={(e) => {
-                                        console.log(e.target.value);
                                         setCantidad(e.target.value);
                                     }}
                                     className="border border-gray-300 px-4 py-2 rounded"
@@ -185,7 +194,6 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
                                     value={precio}
                                     min={1}
                                     onChange={(e) => {
-                                        console.log(e.target.value);
                                         setPrecio(e.target.value);
                                     }}
                                     className="border border-gray-300 px-4 py-2 rounded"
@@ -198,7 +206,6 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
                                     type="text"
                                     value={categoria}
                                     onChange={(e) => {
-                                        console.log(e.target.value);
                                         setCategoria(e.target.value);
                                     }}
                                     className="border border-gray-300 px-4 py-2 rounded"
@@ -212,7 +219,6 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
                                     value={descripcion}
                                     rows={'5'}
                                     onChange={(e) => {
-                                        console.log(e.target.value);
                                         setDescripcion(e.target.value);
                                     }}
                                     className="border border-gray-300 px-4 py-2 rounded"
