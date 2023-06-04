@@ -147,10 +147,10 @@ const CrearPocion = ({ funcion, actualizar, ingredientesValidacion }) => {
             </button>
             {modalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
-                    <div className="w-3/5 bg-white rounded p-8">
+                    <div className="w-full h-screen p-3 pt-10 sm:w-3/4 sm:p-8 sm:h-auto bg-white rounded xl:p-8">
                         <h2 className="text-xl mb-4">Crear Poción</h2>
                         <form
-                            className="flex flex-wrap gap-3 items-end justify-evenly"
+                            className="flex flex-wrap gap-1 items-end justify-evenly"
                             onSubmit={handleSubmit}
                         >
                             <div className="mb-4">
