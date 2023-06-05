@@ -30,6 +30,16 @@ La aplicación PociMagic cuenta con las siguientes funcionalidades principales:
 - Leer pociones: Los usuarios pueden ver el inventario completo de pociones, mostrando información detallada de cada una.
 - Conexión con el backend: La aplicación se conecta a un backend para realizar las operaciones CRUD sobre el inventario de pociones. Se utiliza API REST para la comunicación con el backend.
 
+## Detalles Técnicos
+
+- Se utiliza React como biblioteca principal para el desarrollo de la interfaz de usuario.
+- Vite se utiliza como bundler y servidor de desarrollo para optimizar el rendimiento y la velocidad de la aplicación.
+- Tailwind CSS se utiliza para el diseño y estilizado de la aplicación, ofreciendo una amplia gama de utilidades CSS.
+- La aplicación sigue los principios de diseño y desarrollo de una SPA (Single Page Application) para una experiencia de usuario fluida.
+- La comunicación con el backend se realiza a través de API REST utilizando llamadas HTTP.
+- La aplicación implementa operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre el inventario de pociones.
+- npm se utiliza como administrador de paquetes para gestionar las dependencias del proyecto.
+
 ### Contribución
 
 Si deseas contribuir a este proyecto, puedes seguir los siguientes pasos:
